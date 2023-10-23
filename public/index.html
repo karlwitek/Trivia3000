@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>trivia3000</title>
+    <link rel="stylesheet" href="/main22.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js" integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/main.js"></script>
+  </head>
+  <body>
+    <div id="trivia-container">
+      <p id="trivia-para">TRIVIA</p>
+    </div>
+    <div id="number-container">
+      <p id="number-para">3000</p>
+    </div>
+    <div id="arm-for-mystery">
+      <div id="mystery"><img src="/mst3k-silhouette-large.webp"></div>
+    </div>
+    <div id="mystery-overlay"></div>
+    <button id="sign-up" class="btns">sign up</button>
+    <button id="sign-in" class="btns">sign in</button>
+    <form id="form">
+      <div id="flip-div">
+        <input id="username" type="text" name="username" value="username">
+        <input id="password" type="text" name="password" value="password">
+      </div>
+      <input type="submit" id="submitBtn" value="submit">
+    </form>
+    <div id="message-div">
+      <p id="msg-para"></p>
+    </div>
+    <div id="question-div" class="fade">
+      <script type="text/x-handlebars" id="main-template">
+        <p class="question">{{ question }}</p>
+        <ul>
+        {{#each fourGuesses }}
+        <li class="" data-text="{{this}}">{{this}}</li>
+        {{/each}}
+        </ul>
+      </script>
+    </div>
+    <div id="question-cover" class=""></div>
+
+    <!-- <div id="container" class="">
+      <script type="text/x-handlebars" id="main_template">
+        <p class="question">{{ question }}</p>
+        <form id="form">
+          {{#each fourGuesses }}
+          <label data-text="{{this}}">{{this}}</label>
+          {{/each}}
+          <input type="button" id="submit" value="submit" name="submit">  
+        </form>
+      </script>
+    </div> -->
+
+
+  </body>
+</html>
+
+
+
+

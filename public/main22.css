@@ -1,0 +1,651 @@
+html {
+  height: 100vh;
+}
+
+@font-face {
+  font-family: special;
+  src: url('/Oxanium/Oxanium-VariableFont_wght.ttf');
+}
+
+body {
+  height: 100vh;
+  background-color: rgb(19, 139, 209);
+}
+
+#mystery {
+  position: relative;
+  right: 2.0vw;
+  width: 4.25vw;
+  height: 4.25vw;
+  overflow: hidden;
+  animation: spin-mystery 400ms 10000ms linear infinite;
+}
+
+@keyframes spin-mystery {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#mystery-overlay {
+  z-index: 30;
+  position: absolute;
+  transform: rotate(-18deg);
+  top: 20.4vw;
+  left: 31.1vw;
+  width: 6vw;
+  height: 6vw;
+  background-color: rgb(19, 139, 209);
+  box-sizing: border-box;
+}
+
+img {
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+}
+
+#arm-for-mystery {
+  z-index: 20;
+  position: absolute;
+  transform-origin: bottom;
+  transform: rotate(-18deg);
+  top: 20.4vw;
+  left: 39.2vw;
+  height: 21vw;
+  width: 0.5vw;
+  background-color: rgb(19, 139, 209);
+  animation: roll-out 300ms 9200ms ease-in 1 forwards,
+             bounce-arm 600ms 9500ms cubic-bezier(0.5, 0.1, 0.8, 1.6) 1,
+             arm-slide1 800ms 10200ms linear 1 forwards,
+             arm-slide2 800ms 11200ms linear 1 forwards,
+             arm-slide3 800ms 12200ms linear 1 forwards;
+
+
+}
+
+@keyframes roll-out {
+  0% {
+    transform: rotate(-18deg);
+  }
+  100% {
+    transform: rotate(-90deg);
+  }
+}
+
+@keyframes bounce-arm {
+  0% {
+    top: 20.4vw;
+  }
+  25% {
+    top: 19.4vw;
+  }
+  50% {
+    top: 20.4vw;
+  }
+  75% {
+    top: 19.8vw;
+  }
+}
+
+
+@keyframes arm-slide1 {
+  0% {
+    left: 39.2vw;
+  }
+  100% {
+    left: 58vw;
+  }
+}
+
+@keyframes arm-slide2 {
+  0% {
+    left: 58vw;
+  }
+  100% {
+    left: 76.8vw;
+  }
+}
+
+@keyframes arm-slide3 {
+  0% {
+    left: 76.8vw;
+  }
+  100% {
+    left: 160vw;
+  }
+}
+
+#trivia-container {
+  z-index: 50;
+  position: absolute;
+  top: -7.5vw;
+  left: 25vw;
+  animation: drop-trivia 600ms 2100ms ease-in 1 forwards,
+             bounce 300ms 2702ms ease-out 1 forwards,
+             pump-up 200ms 4200ms linear 4,
+             get-set-trivia 200ms 5002ms linear 1 forwards,
+             shake-trivia 100ms 5300ms linear 9 forwards,
+             step-back-trivia 200ms 6300ms ease-in 1 forwards,
+             collide-trivia 100ms 6500ms ease-in 1 forwards,
+             crash 100ms 6600ms ease-in 4,
+             tilt-trivia 800ms 8300ms ease-in 1 forwards;
+}
+
+#number-container {
+  z-index: 50;
+  position: absolute;
+  top: -8vw;
+  right: 25vw;
+  transform-origin: top left;
+  animation: slide-down 400ms 100ms linear forwards,
+             swing 600ms 600ms ease-out 2 forwards,
+             undo-origin-number 1ms 1800ms linear forwards,
+             drop-number 500ms 1802ms ease-in 1 forwards,
+             shimmy-number 400ms 2302ms ease-in forwards,
+             pump-up 200ms 3900ms linear 4,
+             get-set-number 200ms 4702ms linear 1 forwards,
+             shake-number 100ms 5300ms linear 9 forwards,
+             step-back-number 200ms 6300ms ease-in 1 forwards,
+             collide-number 100ms 6500ms ease-in 1 forwards,
+             crash 100ms 6600ms linear 4,
+             recover-number 1000ms 7020ms ease 1 forwards;
+}
+
+#trivia-para, #number-para {
+  padding: 0;
+  margin: 0;
+  font-size: 6vw;
+  font-family: special, sans-serif;
+  color: #fff;
+  animation-fill-mode: forwards;
+}
+
+#trivia-para {
+  animation: mad-red 300ms 3600ms ease-in 1 forwards;
+}
+
+#number-para {
+  animation: mad-red 300ms 3200ms ease-in 1 forwards;
+}
+
+@keyframes drop-trivia {
+  from {
+    top: -7.5vw;
+  }
+  to {
+    top: 16vw;
+  }
+}
+
+@keyframes bounce {
+  from {
+    top: 15.5vw;
+  }
+  20% {
+    top: 13vw;
+    transform: rotate(18deg);
+  }
+  40% {
+    top: 13.5vw;
+    transform: rotate(-13deg);
+  }
+  60% {
+    top: 14vw;
+    transform: rotate(9deg);
+  }
+  80% {
+    top: 14.5vw;
+    transform: rotate(-3deg);
+  }
+  100% {
+    top: 15.5vw;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    top: -8vw;
+  }
+  to {
+    top: -2.2vw;
+  }
+}
+
+@keyframes undo-origin-number {
+  100% {
+    transform-origin: center;
+  }
+}
+
+@keyframes swing {
+  from {
+    transform: rotate(0);
+  }
+  50% {
+    transform: rotate(155deg);
+  }
+  to {
+    transform: rotate(20deg);
+  }
+}
+
+@keyframes drop-number {
+  from {
+    top: -2.2vw;
+  }
+  100% {
+    top: 15.5vw;
+  }
+}
+
+@keyframes shimmy-number {
+  from {
+    transform-origin: bottom right;
+  }
+  25% {
+    transform: rotate(-18deg);
+  }
+  50% {
+    top: 15vw;
+    transform: rotate(13deg);
+    transform-origin: bottom center;
+  }
+  75% {
+    top: 15.5vw;
+    transform: rotate(-7deg);
+  }
+  100% {
+    top: 15.5vw;
+    transform: rotate(0);
+  }
+}
+
+@keyframes pump-up {
+  from {
+    transform: scale(1);
+  }
+  33% {
+    transform: scale(1.05);
+  }
+  66% {
+    transform: scale(.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes get-set-number {
+  from {
+    transform: scale(1);
+    right: 25vw;
+  }
+  to {
+    transform: scale(0.9);
+    right: 23vw;
+  }
+}
+
+@keyframes get-set-trivia {
+  from {
+    left: 25vw;
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.9);
+    left: 23vw;
+  }
+}
+
+@keyframes shake-number {
+  from {
+    transform: skew(0,0);
+  }
+  to {
+    transform: skew(6deg, -7deg);
+    right: 23vw;
+  }
+}
+
+@keyframes shake-trivia {
+  from {
+    transform: skew(0,0);
+  }
+  to {
+    transform: skew(-6deg, 7deg);
+    left: 23vw;
+  }
+}
+
+@keyframes step-back-number {
+  from {
+    right: 23vw;
+  }
+  to {
+    right: 21.5vw;
+    transform: skew(0deg, 0deg);
+  }
+}
+
+@keyframes step-back-trivia {
+  from {
+    left: 23vw;
+  }
+  to {
+    left: 21.5vw;
+    transform: skew(0deg, 0deg);
+  }
+}
+
+@keyframes collide-number {
+  from {
+    right: 22vw;
+  }
+  to {
+    right: 38vw;
+  }
+}
+
+@keyframes collide-trivia {
+  from {
+    left: 22vw;
+  }
+  to {
+    left: 30vw;
+  }
+}
+
+@keyframes crash {
+  0% {
+    transform: scale(1, 1);
+  }
+  100% {
+    transform: scale(0.8, 1.3);
+  }
+}
+
+@keyframes recover-number {
+  0% {
+    right: 38vw;
+  }
+  50% {
+    right: 33vw;
+  }
+  100% {
+    right: 37.5vw;
+  }
+}
+
+@keyframes mad-red {
+  0% {
+    color: #fff;
+  }
+  33% {
+    color: rgb(240, 240, 131);
+  }
+  50% {
+    color: orange;
+  }
+  100% {
+    color: red;
+  }
+}
+
+@keyframes tilt-trivia {
+  0% {
+    transform-origin: bottom right;
+  }
+  10% {
+    transform: rotate(-6deg);
+  }
+  15% {
+    transform: rotate(-3deg);
+  }
+  60% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(-18deg);
+    transform-origin: bottom right;
+  }
+}
+
+.btns {
+  position: absolute;
+  top: 39.4vw;
+  font-size: 1.1vw;
+  color: rgb(19, 139, 209);
+  height: 4.25vw;
+  width: 4.25vw;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: none;
+  background-color: #fff;
+  opacity: 0;
+  z-index: 50;
+}
+
+.btns:hover {
+  box-shadow: 0 0 1vw 1vw rgba(233, 159, 159, 0.7);
+  transition-delay: 25ms;
+  transition-timing-function: ease-in;
+}
+
+#sign-up {
+  left: 37.25vw;
+  animation: fill-button 1000ms 11010ms ease-in 1 forwards,
+             rotate-button 500ms 11500ms ease-out 1 forwards,
+             morph-button 500ms 11600ms linear 1 forwards,
+             /* scale-up-button 100ms 18500ms linear 1 forwards, */
+             float-button 700ms 12200ms linear infinite;
+             
+}
+
+#sign-in {
+  left: 56vw;
+  animation: fill-button 1000ms 12010ms ease-in 1 forwards,
+             rotate-button 500ms 12500ms ease-out 1 forwards,
+             morph-button 500ms 12600ms linear 1 forwards,
+             /* scale-up-button 100ms 19700ms linear 1 forwards, */
+             float-button 700ms 13200ms linear infinite;
+}
+
+@keyframes fill-button {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes rotate-button {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(1080deg);
+  }
+}
+
+@keyframes morph-button {
+  0% {
+    border-radius: 50%;
+  }
+  100% {
+    border-radius: 5%;
+  }
+}
+
+/* @keyframes scale-up-button {
+  0% {
+    transform: scale(1,1);
+  }
+  50% {
+    transform: scale(1.2, 0.8);
+    border-radius: 25%;
+  }
+  100% {
+    transform: scale(1.6, 1.2);
+    border-radius: 40%;
+  }
+} */
+
+@keyframes float-button {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(0.5vw);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* js event elements */
+
+#message-div {
+  overflow: hidden;
+  margin: 1vw auto;
+  z-index: 10;
+  position: absolute;
+  top: 26vw;
+  left: 39.6vw;
+  box-sizing: border-box;
+  padding: 0.6vw;
+  height: 7vw;
+  width: 15vw;
+  border: 0.1vw solid #fff;
+  font-size: larger;
+  text-align: center;
+  border-radius: 0.5vw;
+  transform: rotateY(270deg);
+  background: rgb(234, 239, 241);
+  opacity: 1;
+}
+
+#form {
+  overflow: hidden;
+  z-index: 50;
+  position: absolute;
+  top: 26vw;
+  left: 38vw;
+  box-sizing: border-box;
+  height: 12vw;
+  width: 18vw;
+  background: rgb(19, 139, 209);
+  opacity: 0;
+}
+
+#form input {
+  display: block;
+  margin: 1vw auto;
+  text-align: center;
+  width: 80%;
+  height: 22%;
+  background: #fff;
+  border-radius: 0.5vw;
+  border: none;
+  color: rgba(118, 181, 206, 0.7);
+  font-size: 1.7vw;
+}
+
+#form #submitBtn {
+  z-index: 50;
+  width: 32%;
+  height: 19%;
+  text-align: center;
+  background-color: #fff;
+}
+
+#msg-para {
+  color: rgba(255, 0, 0, 0.8);
+}
+
+#flip-div {
+  z-index: 50;
+  box-sizing: border-box;
+  height: 7vw;
+  width: 15vw;
+  border: 0.1vw solid #fff;
+  border-radius: 0.5vw;
+  margin: 1vw auto;
+}
+
+#question-div {
+  position: absolute;
+  top: 10vw;
+  /* left: -40vw; */
+  left: 32vw;
+  width: 35vw;
+  height: fit-content;
+  background-color: rgb(19, 139, 209);
+  color: #fff;
+  /* transform: rotate(-220deg); */
+  z-index: 40;
+  opacity: 1;
+}
+
+#question-cover {
+  position: absolute;
+  top: 10vw;
+  left: -45vw;
+  /* left: 32vw; */
+  width: 35vw;
+  height: 35vw;
+  background-color: #4d4949;
+  /* transform: rotate(-220deg); */
+  z-index: 60;
+  opacity: 1;
+  transition: opacity 2s;
+}
+
+#question-cover.fade,
+#question-div.fade {
+  opacity: 0;
+}
+
+p.question {
+  width: 90%;
+  /* padding: 0.3vw; */
+  margin: 3% auto;
+  margin-bottom: 4%;
+  font-size: 1.7vw;
+}
+
+#question-div ul {
+  padding: 0;
+  height: 30vw;
+}
+
+#question-div li {
+  padding: 0.2vw 0.4vw;
+  /* margin: 3% auto; */
+  margin-bottom: 3%;
+  margin-left: -80vw;
+  height: 18%;
+  width: 90%;
+  font-size: 1.5vw;
+  border: 0.1vw solid #726969;
+  border-radius: 7%;
+  background-color: rgb(145, 197, 228);
+  list-style-type: none;
+  align-items: center;
+  transition: margin-left 1s ease-in;
+}
+
+/* #question-div li:nth-child(1) {
+  background-color: pink;
+} */
+
+#question-div li.slide-li {
+  margin-left: 1vw;
+  background-color: blue;
+}
