@@ -218,9 +218,11 @@ function createAnimObject () {
       },
 
       showForm(event) {
-        this.btnSelectedText = event.target.id;// context 'this' is still Game {}, .bind()
+        this.btnSelectedText = event.target.id;// context 'this' is still Game {}, .bind() call w/EL
+
         nameInput.addEventListener('focusin', this.clearInputText);
         passwordInput.addEventListener('focusin', this.clearInputText);
+        
         const signUpSpinUpKF = new KeyframeEffect(
           signUpButton,
           [
@@ -373,13 +375,7 @@ function createAnimObject () {
 
       flipForm(event) {// <div> 'flips'
         event.preventDefault();
-    
-        const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = true;
-    
-        const msgDiv = document.getElementById('message-div');
-    
-        const flipDiv = document.getElementById('flip-div');
     
         const formFlipKF = new KeyframeEffect(
           flipDiv,
@@ -498,7 +494,7 @@ const Game = {
     const data = {
       username: form.username.value,
       password: form.password.value,
-      btnSelected: Game.btnSelectedText,
+      btnSelected: this.btnSelectedText,
     };
   
     const respObj = await fetch('http://localhost:3000/data', {
@@ -588,8 +584,6 @@ const Game = {
 
     const msgDiv = document.getElementById('message-div');
     msgDiv.addEventListener('click', this.Anim.hideMsgDiv);
-
-
   },
 };
 
