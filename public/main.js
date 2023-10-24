@@ -1,3 +1,4 @@
+
 function createAnimObject () {
   // get refs to all animation elements
   const submitBtn = document.getElementById('submitBtn');
@@ -150,7 +151,7 @@ function createAnimObject () {
       numberContFallAnim2.play();
 
       setTimeout(this.animCoverDiv, 300);
-      setTimeout(this.slideAllAnswers, 3500);
+      setTimeout(this.slideAllAnswers, 3700);
       },
 
       animCoverDiv() {        
@@ -205,12 +206,14 @@ function createAnimObject () {
         // use css transitions
         coverDiv.classList.add('fade');
         questionDiv.classList.remove('fade');
+        questionDiv.style.zIndex = "70";
         const arrLiElems = document.querySelectorAll('#question-div li');
       
         let delay = 300;
         arrLiElems.forEach((liElem) => {
           setTimeout(() => {
             liElem.classList.add('slide-li');
+            liElem.addEventListener('click', Game.collectUserGuess);
           }, delay);
       
           delay += 600;
@@ -222,7 +225,7 @@ function createAnimObject () {
 
         nameInput.addEventListener('focusin', this.clearInputText);
         passwordInput.addEventListener('focusin', this.clearInputText);
-        
+
         const signUpSpinUpKF = new KeyframeEffect(
           signUpButton,
           [
@@ -477,6 +480,10 @@ const Game = {
     }
   },
 
+  collectUserGuess(event) {
+    console.log(event.target.dataset.text);
+  },
+
   clearInputText() {
     this.value = "";
   },
@@ -506,38 +513,40 @@ const Game = {
     const resObj = await respObj.json();
   
     if (Object.hasOwn(resObj, 'username')) {
-      this.insertText('Success - Login created');
-      // animate exit of elements, bring in first question
-      this.Anim.animContentChange();
-    } else if (resObj.msg == 'uv-si') {
-      this.insertText('Success - You are Signed In');
-      // animate exit of elements, bring in first question
-      this.Anim.animContentChange();
-    } else {
-      const resString = resObj.msg;
-      switch (resString) {
-        case 'pe-su':
-          this.insertText('Password taken. Please enter another password');
-          break;
-        case 'ue-su':
-          this.insertText('Username taken. Please enter another username');
-          break;
-        case 'be-su':
-          this.insertText('Password and username taken. Please enter another password and username');
-          break;
-        case 'np-si':
-          this.insertText('Password not found. Please re-enter your password');
-          break;
-        case 'nu-si':
-          this.insertText('Username not found. Please re-enter your username');
-          break;
-        case 'np-nu-si':
-          this.insertText('Could not find your username or password. Please re-enter');
-          break;
-        default:
-          this.insertText('Something went wrong');
+      if (this.btnSelectedText == "sign-up") {
+        this.insertText('Success - Login created');
+        // animate exit of elements, bring in first question
+        this.Anim.animContentChange();
+      } else {
+        this.insertText('Success - You are Signed In');
+        // animate exit of elements, bring in first question
+        this.Anim.animContentChange();
       }
-    }  
+      } else {
+        const resString = resObj.msg;
+        switch (resString) {
+          case 'pe-su':
+            this.insertText('Password taken. Please enter another password');
+            break;
+          case 'ue-su':
+            this.insertText('Username taken. Please enter another username');
+            break;
+          case 'be-su':
+            this.insertText('Password and username taken. Please enter another password and username');
+            break;
+          case 'np-si':
+            this.insertText('Password not found. Please re-enter your password');
+            break;
+          case 'nu-si':
+            this.insertText('Username not found. Please re-enter your username');
+            break;
+          case 'np-nu-si':
+            this.insertText('Could not find your username or password. Please re-enter');
+            break;
+          default:
+            this.insertText('Something went wrong');
+        };
+      };
   },
 
   createTemplateFn() {
@@ -571,6 +580,11 @@ const Game = {
     }
   },
 
+  handleUserAnswer(event) {
+    let li = event.target;
+    console.log(li);
+  },
+
   bindEvents() {
     const signUpButton = document.getElementById('sign-up');
     signUpButton.addEventListener('click', this.Anim.showForm.bind(this), { once: true });
@@ -584,6 +598,10 @@ const Game = {
 
     const msgDiv = document.getElementById('message-div');
     msgDiv.addEventListener('click', this.Anim.hideMsgDiv);
+
+    // const ul = document.getElementById('question-list');
+    // ul.addEventListener('click', this.handleUserAnswer.bind(this));
+
   },
 };
 

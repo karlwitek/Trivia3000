@@ -543,7 +543,7 @@ img {
   font-size: 1.7vw;
 }
 
-#form #submitBtn {
+form #submitBtn {
   z-index: 50;
   width: 32%;
   height: 19%;
@@ -575,6 +575,7 @@ img {
   color: #fff;
   z-index: 40;
   opacity: 1;
+  transition: opacity 2s;
 }
 
 #question-cover {
@@ -624,4 +625,8 @@ p.question {
 #question-div li.slide-li {
   margin-left: 1vw;
   background-color: blue;
+}
+
+#question-div li:hover {
+  background-color: rgb(141, 141, 235);
 }

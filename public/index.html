@@ -35,7 +35,7 @@
     <div id="question-div" class="fade">
       <script type="text/x-handlebars" id="main-template">
         <p class="question">{{ question }}</p>
-        <ul>
+        <ul id="question-list">
         {{#each fourGuesses }}
         <li class="" data-text="{{this}}">{{this}}</li>
         {{/each}}
@@ -43,19 +43,6 @@
       </script>
     </div>
     <div id="question-cover" class=""></div>
-
-    <!-- <div id="container" class="">
-      <script type="text/x-handlebars" id="main_template">
-        <p class="question">{{ question }}</p>
-        <form id="form">
-          {{#each fourGuesses }}
-          <label data-text="{{this}}">{{this}}</label>
-          {{/each}}
-          <input type="button" id="submit" value="submit" name="submit">  
-        </form>
-      </script>
-    </div> -->
-
 
   </body>
 </html>

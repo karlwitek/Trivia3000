@@ -49,6 +49,18 @@ async function createNewUser(username, password) {
   }
 };
 
+async function getCurrentUser(username, password) {
+  const query = 'SELECT * FROM players WHERE username = $1 AND userpassword = $2';
+  const values = [username, password];
+
+  try {
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  } catch(err) {
+    console.log(err);
+  }
+};
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '/public/index.html'));
 });
@@ -82,7 +94,12 @@ app.post('/data', async (req, res) => {
     }
   } else if (btnSelected == "sign-in") {
       if ((usernameExists) && (passwordExists)) {
-        res.send({ msg: 'uv-si' });// user-verified
+        try {
+          const currentUserObj = await getCurrentUser(username, password);
+          res.send(currentUserObj);
+        } catch(err) {
+          console.log(err);
+        }
       } else if ((usernameExists) && (!passwordExists)) {
         res.send({ msg: 'np-si'});// password-not-found
       } else if ((!usernameExists) && (passwordExists)) {
