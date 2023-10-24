@@ -220,7 +220,8 @@ function createAnimObject () {
       },
 
       showForm(event) {
-        this.btnSelectedText = event.target.id;// context 'this' is still Game {}, .bind() call w/EL
+        // 'this' context is the Game {} because of .bind() call w/ EL
+        this.btnSelectedText = event.target.id;
 
         nameInput.addEventListener('focusin', this.clearInputText);
         passwordInput.addEventListener('focusin', this.clearInputText);
