@@ -221,10 +221,10 @@ function createAnimObject () {
 
       showForm(event) {
         // 'this' context is the Game {} because of .bind() call w/ EL
-        this.btnSelectedText = event.target.id;
+        Game.btnSelectedText = event.target.id;
 
-        nameInput.addEventListener('focusin', this.clearInputText);
-        passwordInput.addEventListener('focusin', this.clearInputText);
+        nameInput.addEventListener('focusin', Game.clearInputText);
+        passwordInput.addEventListener('focusin', Game.clearInputText);
 
         const signUpSpinUpKF = new KeyframeEffect(
           signUpButton,
@@ -361,13 +361,13 @@ function createAnimObject () {
           document.timeline,
         );
     
-        if (this.btnSelectedText == 'sign-up') {
+        if (Game.btnSelectedText == 'sign-up') {
           signUpSpinUpAnim.play();
           signInFallAwayAnim.play();
           signUpSqueezeAnim.play();
           signUpExitAnim.play();
           formAnimation.play();
-        } else if (this.btnSelectedText == 'sign-in') {
+        } else if (Game.btnSelectedText == 'sign-in') {
           signInSpinUpAnim.play();
           signUpFallAwayAnim.play();
           signInSqueezeAnim.play();
@@ -584,10 +584,10 @@ const Game = {
 
   bindEvents() {
     const signUpButton = document.getElementById('sign-up');
-    signUpButton.addEventListener('click', this.Anim.showForm.bind(this), { once: true });
+    signUpButton.addEventListener('click', this.Anim.showForm, { once: true });
 
     const signInButton = document.getElementById('sign-in');
-    signInButton.addEventListener('click', this.Anim.showForm.bind(this), { once: true });
+    signInButton.addEventListener('click', this.Anim.showForm, { once: true });
 
     const form = document.getElementById('form');
     form.addEventListener('submit', this.verifyOrCreateUser.bind(this));
