@@ -213,7 +213,6 @@ function createAnimObject () {
         arrLiElems.forEach((liElem) => {
           setTimeout(() => {
             liElem.classList.add('slide-li');
-            liElem.addEventListener('click', Game.collectUserGuess);
           }, delay);
       
           delay += 600;
@@ -469,6 +468,7 @@ const Game = {
     this.Anim = animObj;
     this.questionIndex = 0;
     this.btnSelectedText = "";
+    this.currentUserObj = {};
     try {
       this.questions = await this.requestQuestions();
       this.bindEvents();
@@ -513,6 +513,7 @@ const Game = {
     const resObj = await respObj.json();
   
     if (Object.hasOwn(resObj, 'username')) {
+      this.currentUserObj = resObj;
       if (this.btnSelectedText == "sign-up") {
         this.insertText('Success - Login created');
         // animate exit of elements, bring in first question
@@ -580,11 +581,6 @@ const Game = {
     }
   },
 
-  handleUserAnswer(event) {
-    let li = event.target;
-    console.log(li);
-  },
-
   bindEvents() {
     const signUpButton = document.getElementById('sign-up');
     signUpButton.addEventListener('click', this.Anim.showForm.bind(this), { once: true });
@@ -599,9 +595,8 @@ const Game = {
     const msgDiv = document.getElementById('message-div');
     msgDiv.addEventListener('click', this.Anim.hideMsgDiv);
 
-    // const ul = document.getElementById('question-list');
-    // ul.addEventListener('click', this.handleUserAnswer.bind(this));
-
+    const questionDiv = document.getElementById('question-div');
+    questionDiv.addEventListener('click', this.collectUserGuess);
   },
 };
 
