@@ -220,7 +220,6 @@ function createAnimObject () {
       },
 
       showForm(event) {
-        // 'this' context is the Game {} because of .bind() call w/ EL
         Game.btnSelectedText = event.target.id;
 
         nameInput.addEventListener('focusin', Game.clearInputText);
