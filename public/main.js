@@ -488,13 +488,18 @@ const Game = {
     this.value = "";
   },
 
-  insertText(text) {
-    const pElem = document.getElementById('msg-para');
-    pElem.textContent = text;
-  },
+  // insertText(text) {
+  //   const pElem = document.getElementById('msg-para');
+  //   pElem.textContent = text;
+  // },
 
   async verifyOrCreateUser(event) {
     event.preventDefault();
+    const pElem = document.getElementById('msg-para');
+
+    function insertText(text) {
+      pElem.textContent = text;
+    }
 
     const form = document.getElementById('form');
   
@@ -515,11 +520,11 @@ const Game = {
     if (Object.hasOwn(resObj, 'username')) {
       this.currentUserObj = resObj;
       if (this.btnSelectedText == "sign-up") {
-        this.insertText('Success - Login created');
+        insertText('Success - Login created');
         // animate exit of elements, bring in first question
         this.Anim.animContentChange();
       } else {
-        this.insertText('Success - You are Signed In');
+        insertText('Success - You are Signed In');
         // animate exit of elements, bring in first question
         this.Anim.animContentChange();
       }
@@ -527,25 +532,25 @@ const Game = {
         const resString = resObj.msg;
         switch (resString) {
           case 'pe-su':
-            this.insertText('Password taken. Please enter another password');
+            insertText('Password taken. Please enter another password');
             break;
           case 'ue-su':
-            this.insertText('Username taken. Please enter another username');
+            insertText('Username taken. Please enter another username');
             break;
           case 'be-su':
-            this.insertText('Password and username taken. Please enter another password and username');
+            insertText('Password and username taken. Please enter another password and username');
             break;
           case 'np-si':
-            this.insertText('Password not found. Please re-enter your password');
+            insertText('Password not found. Please re-enter your password');
             break;
           case 'nu-si':
-            this.insertText('Username not found. Please re-enter your username');
+            insertText('Username not found. Please re-enter your username');
             break;
           case 'np-nu-si':
-            this.insertText('Could not find your username or password. Please re-enter');
+            insertText('Could not find your username or password. Please re-enter');
             break;
           default:
-            this.insertText('Something went wrong');
+            insertText('Something went wrong');
         };
       };
   },
