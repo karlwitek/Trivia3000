@@ -1,3 +1,4 @@
+const NUMGAMES = 5;
 
 function createAnimObject () {
   // get refs to all animation elements
@@ -469,6 +470,8 @@ const Game = {
     this.questionIndex = 0;
     this.btnSelectedText = "";
     this.currentUserObj = {};
+    this.questionNumber = 0;
+    this.correctInGame = 0;
     try {
       this.questions = await this.requestQuestions();
       this.bindEvents();
@@ -481,17 +484,65 @@ const Game = {
   },
 
   collectUserGuess(event) {
-    console.log(event.target.dataset.text);
+    const userGuess = event.target.dataset.text;
+    this.questionNumber += 1;
+    if (userGuess == this.currentCorrect) {
+      this.currentUserObj.correct += 1;
+      this.correctInGame += 1;
+    } else {
+      this.currentUserObj.incorrect += 1;
+    };
+
+    if (this.questionNumber >= NUMGAMES) {
+      this.endQuestionSet();
+    } else {
+      this.renderQuestion();
+      this.Anim.slideAllAnswers();
+    }
+  },
+
+  endQuestionSet() {
+    this.currentUserObj.numgamesplayed += 1;
+    this.currentUserObj.totalguesses += NUMGAMES;
+    this.questionNumber = 0;
+    this.promptUser();
+  },
+
+  promptUser() {
+    // anim: overlay, ...
+    
+    const span = document.querySelector('#prompt-user-div span');
+    const resultP = document.getElementById('result-para');
+    span.textContent = `${this.correctInGame}`;
+    span.style.color = "red";
+    resultP.style.color = "red";
+ 
+    this.correctInGame = 0;
+
+  },
+
+  async updateAndShow() {
+    const data = this.currentUserObj;
+
+    const respObj = await fetch('http://localhost:3000/data', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const allUsers = await fetch('http://localhost:3000/data');
+    const allUsersArr = await allUsers.json();
+
+    // sort array , use templ
+  },
+
+  startNewGame() {
+    this.renderQuestion();
+    this.Anim.slideAllAnswers();
   },
 
   clearInputText() {
     this.value = "";
   },
-
-  // insertText(text) {
-  //   const pElem = document.getElementById('msg-para');
-  //   pElem.textContent = text;
-  // },
 
   async verifyOrCreateUser(event) {
     event.preventDefault();
@@ -499,7 +550,7 @@ const Game = {
 
     function insertText(text) {
       pElem.textContent = text;
-    }
+    };
 
     const form = document.getElementById('form');
   
@@ -601,7 +652,13 @@ const Game = {
     msgDiv.addEventListener('click', this.Anim.hideMsgDiv);
 
     const questionDiv = document.getElementById('question-div');
-    questionDiv.addEventListener('click', this.collectUserGuess);
+    questionDiv.addEventListener('click', this.collectUserGuess.bind(this));
+
+    const standingsBtn = document.getElementById('standings');
+    standingsBtn.addEventListener('click', this.updateAndShow.bind(this));
+
+    const playAgainBtn = document.getElementById('play-again');
+    playAgainBtn.addEventListener('click', this.startNewGame.bind(this));
   },
 };
 

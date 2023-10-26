@@ -114,6 +114,34 @@ app.post('/data', async (req, res) => {
   }
 });
 
+app.put('/data', async (req, res) => {
+  const id = req.body.id;
+  const ct = req.body.correct;
+  const ict = req.body.incorrect;
+  const ngp = req.body.numgamesplayed;
+  const tg = req.body.totalguesses;
+
+  const query = `UPDATE players SET correct = ${ct}, incorrect = ${ict}, 
+                 numgamesplayed = ${ngp}, totalguesses = ${tg} WHERE id = ${id} 
+                 RETURNING *`;
+
+  try {
+    const result = await pool.query(query);
+    res.send(result.rows[0]);
+  } catch(err) {
+    console.log(err);
+  }
+});
+
+app.get('/data', async (req, res) => {
+  const query = 'SELECT * FROM players';
+  try {
+    const result = await pool.query(query);
+    res.send(result.rows);
+  } catch(err) {
+    console.log(err);
+  }
+});
 
 app.listen(port, () => {
   console.log(`Trivia game app listening on port ${port}!`);

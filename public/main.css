@@ -630,3 +630,20 @@ p.question {
 #question-div li:hover {
   background-color: rgb(141, 141, 235);
 }
+
+#prompt-user-div {
+  position: absolute;
+  top: 4vw;
+  right: 8vw;
+  width: 15vw;
+  height: 10vw;
+  background-color: #fff;
+  z-index: 60;
+  opacity: 1;
+  /* transition: opacity 2s; */
+  } 
+
+  #result-para {
+    font-size: 1vw;
+    color: #fff;
+  }
