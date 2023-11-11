@@ -1,4 +1,4 @@
-const NUMGAMES = 5;
+const NUMQUESTIONS = 5;
 
 function createAnimObject () {
   // get refs to all animation elements
@@ -8,7 +8,6 @@ function createAnimObject () {
   const triviaContainer = document.getElementById('trivia-container');
   const numberContainer = document.getElementById('number-container');
 
-  const coverDiv = document.getElementById('question-cover');
   const questionDiv = document.getElementById('question-div');
 
   const signInButton = document.getElementById('sign-in');
@@ -151,72 +150,21 @@ function createAnimObject () {
       numberContFallAnim1.play();
       numberContFallAnim2.play();
 
-      setTimeout(this.animCoverDiv, 300);
-      setTimeout(this.slideAllAnswers, 3700);
+      setTimeout(this.slideAllAnswers, 3400);
       },
 
-      animCoverDiv() {        
-          const coverDivSlideKF = new KeyframeEffect(
-            coverDiv,
-            [
-              { left: "-45vw" },
-              { left: "-31vw" },
-            ],
-            { duration: 500, delay: 100, fill: "forwards" },
-          );
-        
-          const coverDivSlideAnim = new Animation(
-            coverDivSlideKF,
-            document.timeline,
-          );
-        
-          const coverDivSpinKF = new KeyframeEffect(
-            coverDiv,
-            [
-              { transform: "rotate(0deg)" },
-              { transform: "rotate(360deg)" },
-            ],
-            { duration: 500, delay: 100, easing: "linear", iterations: 5 },
-          );
-        
-          const coverDivSpinAnim = new Animation(
-            coverDivSpinKF,
-            document.timeline,
-          );
-        
-          const coverDivKF = new KeyframeEffect(
-            coverDiv,
-            [
-              { transform: "rotate(0deg)", left: "-31vw", top: "10vw" },
-              { transform: "rotate(360deg)", left: "32vw", top: "10vw" },
-            ],
-            { duration: 600, delay: 2600, fill: "forwards", easing: "ease-in" },
-          );
-        
-          const coverDivAnim = new Animation(
-            coverDivKF,
-            document.timeline,
-          );
-        
-          coverDivSpinAnim.play();
-          coverDivSlideAnim.play();
-          coverDivAnim.play();
-      },
+      slideAllAnswers() {   
+        questionDiv.classList.add('show');
 
-      slideAllAnswers() {      
-        // use css transitions
-        coverDiv.classList.add('fade');
-        questionDiv.classList.remove('fade');
-        questionDiv.style.zIndex = "70";
         const arrLiElems = document.querySelectorAll('#question-div li');
       
-        let delay = 300;
+        let delay = 500;
         arrLiElems.forEach((liElem) => {
           setTimeout(() => {
-            liElem.classList.add('slide-li');
+            liElem.classList.add('slide');
           }, delay);
       
-          delay += 600;
+          delay += 500;
         });
       },
 
@@ -469,6 +417,8 @@ const Game = {
     this.Anim = animObj;
     this.questionIndex = 0;
     this.btnSelectedText = "";
+    this.currentCorrect = "";
+    this.currentIncorrectArr = [];
     this.currentUserObj = {};
     this.questionNumber = 0;
     this.correctInGame = 0;
@@ -483,47 +433,89 @@ const Game = {
     }
   },
 
-  collectUserGuess(event) {
-    const userGuess = event.target.dataset.text;
-    this.questionNumber += 1;
-    if (userGuess == this.currentCorrect) {
-      this.currentUserObj.correct += 1;
-      this.correctInGame += 1;
-    } else {
-      this.currentUserObj.incorrect += 1;
-    };
+  colorCorrect(event) {
+    const currLi = event.target;
+    currLi.classList.add("correct");
+  },
 
-    if (this.questionNumber >= NUMGAMES) {
-      this.endQuestionSet();
-    } else {
-      this.renderQuestion();
-      this.Anim.slideAllAnswers();
+  colorIncorrect(event) {
+    const currLi = event.target;
+    currLi.classList.add("incorrect");
+
+    const liElems = document.querySelectorAll('#question-div li');
+
+    //console.log(this.currentIncorrectArr);
+
+    liElems.forEach((li) => {
+      if (this.currentIncorrectArr.includes(li.dataset.text)) {
+        li.classList.add('slide-right');
+      }
+    });
+  },
+
+  collectUserGuess(event) {
+    let target = event.target;
+    if (target.matches('li')) {
+      const questionDiv = document.getElementById('question-div');
+      questionDiv.style.zIndex = "40";
+  
+      const userGuess = event.target.dataset.text;
+      this.questionNumber += 1;
+      if (userGuess == this.currentCorrect) {
+        this.colorCorrect(event);
+        this.currentUserObj.correct += 1;
+        this.correctInGame += 1;
+      } else {
+        this.colorIncorrect(event);
+        this.currentUserObj.incorrect += 1;
+      };
+  
+      setTimeout(() => {// show result msg first
+        if (this.questionNumber >= NUMQUESTIONS) {
+          this.endQuestionSet();
+        } else {
+          setTimeout(() => {
+            this.renderQuestion();
+            this.Anim.slideAllAnswers();
+          }, 1000);
+        }
+      }, 500);
     }
   },
 
   endQuestionSet() {
     this.currentUserObj.numgamesplayed += 1;
-    this.currentUserObj.totalguesses += NUMGAMES;
+    this.currentUserObj.totalguesses += NUMQUESTIONS;
     this.questionNumber = 0;
     this.promptUser();
   },
 
   promptUser() {
-    // anim: overlay, ...
+    // deal with mystery-overlay
+    const mysteryOverlay = document.getElementById('mystery-overlay');
+    mysteryOverlay.style.zIndex = "5";
+
+    const promptOverlay = document.getElementById('prompt-overlay');
+    promptOverlay.classList.add('show-prompt');
     
-    const span = document.querySelector('#prompt-user-div span');
+    const span = document.querySelector('#prompt-overlay span');
     const resultP = document.getElementById('result-para');
+    const playBtn = document.getElementById('play-again');
+    const standingsBtn = document.getElementById('standings');
+
     span.textContent = `${this.correctInGame}`;
-    span.style.color = "red";
-    resultP.style.color = "red";
+    span.style.color = "#fff";
+    resultP.classList.add('show-prompt');
+    playBtn.classList.add('show-prompt');
+    standingsBtn.classList.add('show-prompt');
  
     this.correctInGame = 0;
-
   },
 
   async updateAndShow() {
     const data = this.currentUserObj;
 
+    // try catch here
     const respObj = await fetch('http://localhost:3000/data', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -532,10 +524,12 @@ const Game = {
     const allUsers = await fetch('http://localhost:3000/data');
     const allUsersArr = await allUsers.json();
 
-    // sort array , use templ
+    // return all in desc order 
   },
 
   startNewGame() {
+    const promptOverlay = document.getElementById('prompt-overlay');
+    promptOverlay.classList.remove('show-prompt');
     this.renderQuestion();
     this.Anim.slideAllAnswers();
   },
@@ -572,11 +566,9 @@ const Game = {
       this.currentUserObj = resObj;
       if (this.btnSelectedText == "sign-up") {
         insertText('Success - Login created');
-        // animate exit of elements, bring in first question
         this.Anim.animContentChange();
       } else {
         insertText('Success - You are Signed In');
-        // animate exit of elements, bring in first question
         this.Anim.animContentChange();
       }
       } else {
@@ -615,10 +607,10 @@ const Game = {
     const questDiv = document.getElementById('question-div');
     let currentObj = this.questions[this.questionIndex];
 
-    let incorrectArr = currentObj.incorrectAnswers;
-    
+    this.currentIncorrectArr = currentObj.incorrectAnswers;
+
     let newIndex = Math.floor(Math.random() * 4);
-    incorrectArr.splice(newIndex, 0, currentObj.correctAnswer);
+    let incorrectArr = currentObj.incorrectAnswers.toSpliced(newIndex, 0, currentObj.correctAnswer);      
     currentObj.fourGuesses = incorrectArr;
     questDiv.innerHTML = this.templateFn(currentObj);
     
